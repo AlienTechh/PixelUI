@@ -36,17 +36,28 @@
             box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.85);
         }
 
-        .camera-island {
+        .camera-punchhole {
             position: absolute;
-            top: 11px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 75px;
-            height: 22px;
+            top: 13px;
+            left: 24px;
+            width: 14px;
+            height: 14px;
             background-color: #000;
-            border-radius: 20px;
+            border-radius: 50%;
             z-index: 110;
             pointer-events: none;
+            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .camera-lens {
+            width: 6px;
+            height: 6px;
+            background: #0d0d1a;
+            border-radius: 50%;
+            box-shadow: inset 0 0 2px #1a73e8;
         }
 
         .screen {
@@ -58,13 +69,16 @@
             background-color: #000;
         }
 
+        /* UPDATED: Wallpaper swapped to your requested link */
         .wallpaper-bg {
             position: absolute;
             top: -10%;
             left: -10%;
             width: 120%;
             height: 120%;
-            background: linear-gradient(145deg, #af40ff, #5b42f3 40%, #00d2ff);
+            background-image: url('https://img.magnific.com/free-vector/abstract-grey-gradient-shapes_779267-3264.jpg?semt=ais_hybrid&w=740&q=80');
+            background-size: cover;
+            background-position: center;
             z-index: 1;
             transform: scale(1);
             will-change: transform;
@@ -76,13 +90,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 22px 0 22px;
+            padding: 4px 22px 0 46px;
             font-size: 11px;
             font-weight: 600;
             position: absolute;
             top: 0;
             z-index: 100;
             pointer-events: none;
+        }
+
+        .status-right {
+            display: flex;
+            gap: 5px;
+            align-items: center;
         }
 
         .home-screen {
@@ -197,14 +217,16 @@
 <body>
 
     <div class="phone-frame">
-        <div class="camera-island"></div>
+        <div class="camera-punchhole">
+            <div class="camera-lens"></div>
+        </div>
         
         <div class="screen">
             <div class="wallpaper-bg" id="phone-wp"></div>
             
             <div class="status-bar">
                 <span>9:41</span>
-                <span>100%</span>
+                <div class="status-right">100%</div>
             </div>
 
             <div class="home-screen">
@@ -288,7 +310,7 @@
 
         function doDrag(e) {
             if (!isDragging) return;
-            // Visual changes are disabled during swipe up. Window stays completely frozen.
+            // Kept completely frozen when swiping up to avoid layout lag
         }
 
         function endDrag(e) {
@@ -299,7 +321,7 @@
             const currentY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
             const deltaY = currentY - startY;
 
-            // Instantly snaps cleanly into the icon if you cross the upward threshold
+            // Closes instantly when passing the drag up threshold
             if (deltaY < -60) {
                 closeApp();
             }
